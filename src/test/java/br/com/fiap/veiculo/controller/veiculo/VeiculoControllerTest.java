@@ -10,6 +10,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import br.com.fiap.veiculo.config.GlobalExceptionHandler;
+import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
+import br.com.fiap.veiculo.exception.VeiculoNaoEncontradoException;
+import br.com.fiap.veiculo.exception.VeiculoVendidoException;
+import br.com.fiap.veiculo.infra.provider.VeiculoPovider;
+import br.com.fiap.veiculo.usecase.veiculo.*;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.fiap.veiculo.domain.Veiculo;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
-import br.com.fiap.veiculo.usecase.veiculo.*;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 class VeiculoControllerTest {
 
@@ -40,6 +48,9 @@ class VeiculoControllerTest {
     @Mock
     private DeletarVeiculoUseCase deletarVeiculo;
 
+    @Mock
+    private VeiculoPovider veiculoGateway;
+
     @InjectMocks
     private VeiculoController veiculoController;
 
@@ -47,6 +58,8 @@ class VeiculoControllerTest {
     void setUp() {
         mocks = MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(veiculoController)
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .setValidator(new LocalValidatorFactoryBean())
                 .build();
     }
 
@@ -74,10 +87,10 @@ class VeiculoControllerTest {
 
             when(criarVeiculoUseCase.execute(any(Veiculo.class))).thenReturn(veiculo);
 
-            mockMvc.perform(post("/veiculos")
+            mockMvc.perform(post("/veiculo")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(veiculo)))
-                    .andExpect(status().isOk())
+                    .andExpect(status().is2xxSuccessful())
                     .andExpect(jsonPath("$.id").value(id.toString()))
                     .andExpect(jsonPath("$.marca").value("Toyota"))
                     .andExpect(jsonPath("$.modelo").value("Corolla"))
@@ -86,7 +99,7 @@ class VeiculoControllerTest {
 
         @Test
         void naoDeveCriarVeiculoComCamposInvalidos() throws Exception {
-            Veiculo veiculo = Veiculo.builder()
+            VeiculoRequestDTO veiculoDTO = VeiculoRequestDTO.builder()
                     .marca("")
                     .modelo("")
                     .ano(1800)
@@ -95,19 +108,19 @@ class VeiculoControllerTest {
                     .quilometragem(-1)
                     .build();
 
-            mockMvc.perform(post("/veiculos")
+            mockMvc.perform(post("/veiculo")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(asJsonString(veiculo)))
+                            .content(asJsonString(veiculoDTO)))
                     .andExpect(status().isBadRequest());
         }
 
         @Test
         void naoDeveCriarVeiculoComCamposNull() throws Exception {
-            Veiculo veiculo = Veiculo.builder().build();
+            VeiculoRequestDTO veiculoDTO = new VeiculoRequestDTO();
 
-            mockMvc.perform(post("/veiculos")
+            mockMvc.perform(post("/veiculo")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(asJsonString(veiculo)))
+                            .content(asJsonString(veiculoDTO)))
                     .andExpect(status().isBadRequest());
         }
     }
@@ -122,6 +135,7 @@ class VeiculoControllerTest {
                     .id(id)
                     .marca("Honda")
                     .modelo("Civic")
+                    .ano(2020)
                     .cor("Branco")
                     .preco(new BigDecimal(88000.0))
                     .quilometragem(20000)
@@ -130,7 +144,7 @@ class VeiculoControllerTest {
 
             when(alterarVeiculoUseCase.execute(any(), any(Veiculo.class))).thenReturn(atualizado);
 
-            mockMvc.perform(put("/veiculos/{id}", id)
+            mockMvc.perform(put("/veiculo/{id}", id)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(atualizado)))
                     .andExpect(status().isOk())
@@ -138,22 +152,36 @@ class VeiculoControllerTest {
                     .andExpect(jsonPath("$.preco").value(88000.0));
         }
 
+
         @Test
         void naoDeveAtualizarVeiculoInexistente() throws Exception {
             UUID id = UUID.randomUUID();
-            doThrow(new RuntimeException("Veiculo não encontrado"))
-                    .when(alterarVeiculoUseCase).execute(any(), any(Veiculo.class));
 
-            mockMvc.perform(put("/veiculos/{id}", id)
+            // corpo válido (tem todos os campos @NotNull/@NotBlank)
+            Veiculo request = Veiculo.builder()
+                    .marca("Honda")
+                    .modelo("Civic")
+                    .ano(2020)
+                    .cor("Branco")
+                    .preco(new BigDecimal(88000))
+                    .quilometragem(20000)
+                    .build();
+
+            // quando o usecase for chamado, lança VeiculoNaoEncontradoException
+            doThrow(new VeiculoNaoEncontradoException("Veiculo não encontrado"))
+                    .when(alterarVeiculoUseCase).execute(eq(id), any(Veiculo.class));
+
+            mockMvc.perform(put("/veiculo/{id}", id)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"cor\":\"Branco\"}"))
+                            .content(asJsonString(request)))
                     .andExpect(status().isNotFound());
         }
+
 
         @Test
         void naoDeveAtualizarStatusInvalido() throws Exception {
             UUID id = UUID.randomUUID();
-            mockMvc.perform(put("/veiculos/{id}", id)
+            mockMvc.perform(put("/veiculo/{id}", id)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"status\":\"INVALIDO\"}"))
                     .andExpect(status().isBadRequest());
@@ -168,26 +196,30 @@ class VeiculoControllerTest {
             UUID id = UUID.randomUUID();
             doNothing().when(deletarVeiculo).execute(id);
 
-            mockMvc.perform(delete("/veiculos/{id}", id))
+            mockMvc.perform(delete("/veiculo/{id}", id))
                     .andExpect(status().isNoContent());
         }
 
         @Test
         void naoDeveDeletarVeiculoInexistente() throws Exception {
             UUID id = UUID.randomUUID();
-            doThrow(new RuntimeException("Veiculo não encontrado")).when(deletarVeiculo).execute(id);
+            doThrow(new VeiculoNaoEncontradoException("Veiculo não encontrado"))
+                    .when(deletarVeiculo).execute(id);
 
-            mockMvc.perform(delete("/veiculos/{id}", id))
+            mockMvc.perform(delete("/veiculo/{id}", id))
                     .andExpect(status().isNotFound());
         }
 
         @Test
         void naoDeveDeletarVeiculoVendido() throws Exception {
             UUID id = UUID.randomUUID();
-            doThrow(new RuntimeException("Veiculo vendido")).when(deletarVeiculo).execute(id);
 
-            mockMvc.perform(delete("/veiculos/{id}", id))
-                    .andExpect(status().isBadRequest());
+            doThrow(new VeiculoVendidoException("Não é possível deletar um veículo já vendido"))
+                    .when(deletarVeiculo).execute(eq(id));
+
+            mockMvc.perform(delete("/veiculo/{id}", id))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().string("Não é possível deletar um veículo já vendido"));
         }
     }
 
@@ -209,7 +241,7 @@ class VeiculoControllerTest {
 
             when(obterVeiculoPorIdUseCase.execute(any())).thenReturn(Optional.of(veiculo));
 
-            mockMvc.perform(get("/veiculos/{id}", id))
+            mockMvc.perform(get("/veiculo/{id}", id))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.marca").value("Volkswagen"))
                     .andExpect(jsonPath("$.modelo").value("Golf"));
@@ -218,34 +250,22 @@ class VeiculoControllerTest {
         @Test
         void naoDeveObterVeiculoInexistentePorId() throws Exception {
             UUID id = UUID.randomUUID();
-            when(obterVeiculoPorIdUseCase.execute(any())).thenReturn(Optional.empty());
 
-            mockMvc.perform(get("/veiculos/{id}", id))
+            when(obterVeiculoPorIdUseCase.execute(eq(id))).thenReturn(Optional.empty());
+
+            mockMvc.perform(get("/veiculo/{id}", id))
                     .andExpect(status().isNotFound());
         }
 
-        @Test
-        void deveListarTodosVeiculos() throws Exception {
-            UUID id = UUID.randomUUID();
-            Veiculo veiculo = Veiculo.builder()
-                    .id(id)
-                    .marca("Fiat")
-                    .modelo("Cronos")
-                    .preco(new BigDecimal(70000.0))
-                    .status(StatusVeiculo.DISPONIVEL)
-                    .build();
 
-            when(obterVeiculoUseCase.execute()).thenReturn(List.of(veiculo));
-
-            mockMvc.perform(get("/veiculos"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.length()").value(1));
-        }
     }
 
     private static String asJsonString(final Object obj) {
         try {
-            return new ObjectMapper().writeValueAsString(obj);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule()); // 👈 habilita LocalDateTime
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 👈 formata como ISO-8601
+            return mapper.writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

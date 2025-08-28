@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 public class VeiculoMapper {
     public static Veiculo toDomain(VeiculoRequestDTO dto) {
         return Veiculo.builder()
-                .id(null) // gerado pelo banco
-                .marca(dto.marca())
-                .modelo(dto.modelo())
-                .ano(dto.ano())
-                .cor(dto.cor())
-                .preco(dto.preco())
-                .quilometragem(dto.quilometragem())
-                .status(StatusVeiculo.DISPONIVEL) // default no cadastro
+                .id(null)
+                .marca(dto.getMarca())
+                .modelo(dto.getModelo())
+                .ano(dto.getAno())
+                .cor(dto.getCor())
+                .preco(dto.getPreco())
+                .quilometragem(dto.getQuilometragem())
+                .status(StatusVeiculo.DISPONIVEL)
                 .dataCadastro(LocalDateTime.now())
                 .dataAtualizacao(LocalDateTime.now())
                 .build();

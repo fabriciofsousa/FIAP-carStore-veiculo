@@ -4,76 +4,74 @@ import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
 import br.com.fiap.veiculo.controller.veiculo.mapper.VeiculoMapper;
 import br.com.fiap.veiculo.domain.Veiculo;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
-import br.com.fiap.veiculo.usecase.veiculo.AlterarVeiculoUseCase;
-import br.com.fiap.veiculo.usecase.veiculo.CriarVeiculoUseCase;
-import br.com.fiap.veiculo.usecase.veiculo.ObterVeiculoPorIdUseCase;
-import br.com.fiap.veiculo.usecase.veiculo.ObterVeiculosPorStatusUseCase;
-import br.com.fiap.veiculo.usecase.veiculo.DeletarVeiculoUseCase;
+import br.com.fiap.veiculo.usecase.veiculo.*;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/veiculos")
+@RequestMapping("/veiculo")
 public class VeiculoController {
+
     private final CriarVeiculoUseCase criarVeiculoUseCase;
     private final ObterVeiculoPorIdUseCase obterVeiculoPorIdUseCase;
     private final AlterarVeiculoUseCase alterarVeiculoUseCase;
-    private final DeletarVeiculoUseCase deletarVeiculo;
+    private final DeletarVeiculoUseCase deletarVeiculoUseCase;
     private final ObterVeiculosPorStatusUseCase obterVeiculosPorStatusUseCase;
 
     public VeiculoController(
             CriarVeiculoUseCase criarVeiculoUseCase,
             ObterVeiculoPorIdUseCase obterVeiculoPorIdUseCase,
             AlterarVeiculoUseCase alterarVeiculoUseCase,
-            DeletarVeiculoUseCase deletarVeiculo,
+            DeletarVeiculoUseCase deletarVeiculoUseCase,
             ObterVeiculosPorStatusUseCase obterVeiculosPorStatusUseCase
     ) {
         this.criarVeiculoUseCase = criarVeiculoUseCase;
         this.obterVeiculoPorIdUseCase = obterVeiculoPorIdUseCase;
         this.alterarVeiculoUseCase = alterarVeiculoUseCase;
-        this.deletarVeiculo = deletarVeiculo;
+        this.deletarVeiculoUseCase = deletarVeiculoUseCase;
         this.obterVeiculosPorStatusUseCase = obterVeiculosPorStatusUseCase;
     }
 
-    // Cadastrar veículo
     @PostMapping
-    public ResponseEntity<Veiculo> criarVeiculo(@RequestBody VeiculoRequestDTO veiculoRequestDTO) {
-        var veiculo = VeiculoMapper.toDomain(veiculoRequestDTO);
-        return ResponseEntity.ok(criarVeiculoUseCase.execute(veiculo));
+    public ResponseEntity<Veiculo> criarVeiculo(@RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO) {
+        Veiculo veiculo = VeiculoMapper.toDomain(veiculoRequestDTO);
+        Veiculo criado = criarVeiculoUseCase.execute(veiculo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
-    // Buscar veículo por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Veiculo>> obterVeiculoPorId(@PathVariable UUID id) {
-        return ResponseEntity.ok(obterVeiculoPorIdUseCase.execute(id));
+    public ResponseEntity<Veiculo> obterVeiculoPorId(@PathVariable UUID id) {
+        return obterVeiculoPorIdUseCase.execute(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Listar veículos disponíveis à venda (ordenados por preço)
     @GetMapping("/disponiveis")
     public ResponseEntity<List<Veiculo>> listarVeiculosDisponiveis() {
-        return ResponseEntity.ok(obterVeiculosPorStatusUseCase.execute(StatusVeiculo.DISPONIVEL));
+        List<Veiculo> veiculos = obterVeiculosPorStatusUseCase.execute(StatusVeiculo.DISPONIVEL);
+        return ResponseEntity.ok(veiculos);
     }
 
-    // Listar veículos vendidos (ordenados por preço)
     @GetMapping("/vendidos")
     public ResponseEntity<List<Veiculo>> listarVeiculosVendidos() {
-        return ResponseEntity.ok(obterVeiculosPorStatusUseCase.execute(StatusVeiculo.VENDIDO));
+        List<Veiculo> veiculos = obterVeiculosPorStatusUseCase.execute(StatusVeiculo.VENDIDO);
+        return ResponseEntity.ok(veiculos);
     }
 
-    // Atualizar veículo
     @PutMapping("/{id}")
-    public ResponseEntity<Veiculo> updateVeiculo(@PathVariable UUID id, @RequestBody Veiculo veiculo) {
-        return ResponseEntity.ok(alterarVeiculoUseCase.execute(id, veiculo));
+    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid Veiculo veiculo) {
+        Veiculo atualizado = alterarVeiculoUseCase.execute(id, veiculo);
+        return ResponseEntity.ok(atualizado);
     }
 
-    // Deletar veículo
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVeiculo(@PathVariable UUID id) {
-        deletarVeiculo.execute(id);
+    public ResponseEntity<Void> deletarVeiculo(@PathVariable UUID id) {
+        deletarVeiculoUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }
 }
