@@ -1,67 +1,54 @@
-# Módulo de Veículos – Regras de Negócio
+# 🚗 FIAP CarStore - Veículo
+
 
 ---
 
-## 1. Cadastro de Veículo
+O **FIAP CarStore - Veículo** é o microsserviço responsável pelo gerenciamento dos veículos cadastrados na plataforma CarStore.
 
-**Use Case:** `CriarVeiculoUseCase`  
-**Validações:**
-- Marca, modelo e cor não podem ser nulos ou vazios.
-- Ano entre 1900 e o ano atual.
-- Preço e quilometragem não podem ser negativos.
-- Status padrão: `DISPONIVEL` se não informado.
+Ele também é o responsável por inicializar o banco de dados PostgreSQL e configurar a rede compartilhada entre os serviços. Dessa forma, todos os demais microsserviços (como o de Clientes) podem se conectar ao mesmo banco de dados sem esforço adicional.
+
+Esse serviço é o ponto de partida do ecossistema CarStore, garantindo que a infraestrutura esteja pronta para que os outros módulos possam funcionar corretamente.
 
 ---
 
-## 2. Atualização de Veículo
+## ✅ Pré-requisitos
 
-**Use Case:** `AlterarVeiculoUseCase` (PATCH)  
-**Validações:**
-- ID obrigatório e veículo deve existir.
-- Apenas campos informados são atualizados.
-- Status deve ser válido (`DISPONIVEL`, `RESERVADO`, `VENDIDO`).
-- Data de atualização atualizada automaticamente.
+- Docker e Docker Compose instalados.
 
 ---
 
-## 3. Deleção de Veículo
+## ▶️ Para rodar localmente
 
-**Use Case:** `DeletarVeiculoUseCase`  
-**Validações:**
-- ID obrigatório e veículo deve existir.
-- (Opcional) Impedir deleção de veículos vendidos.
+---
+Este projeto sobe a aplicação **Veículo** junto com o **Postgres**.  
+Ele é o responsável por criar o banco de dados e a rede que serão utilizados por outros serviços, como o **Clientes**.
+---
+
+1. Baixe a imagem da aplicação **veículo** do Docker Hub:
+
+```bash
+docker pull fabriciofsousa/fiap-carstore-veiculo:latest
+```
+
+2. Suba os containers com o Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+Isso irá criar:
+- Um container **Postgres** chamado `postgres_carstore`
+- Um container da aplicação **veículo**
 
 ---
 
-## 4. Obtenção de Veículo por ID
+## 🌐 Rede compartilhada
 
-**Use Case:** `ObterVeiculoPorIdUseCase`  
-**Validações:**
-- ID obrigatório.
-- Se não existir, lança `VeiculoNaoEncontradoException`.
+Ao subir este projeto, será criada a rede **carstore-network**.  
+Outros projetos (como o `clientes`) utilizarão essa rede para compartilhar o mesmo banco de dados.
 
 ---
 
-## 5. Listagem de Veículos por Status
+## 🔗 Endpoints
 
-**Use Case:** `ObterVeiculosPorStatusUseCase`  
-**Validações:**
-- Status obrigatório e válido (`DISPONIVEL`, `RESERVADO`, `VENDIDO`).
-- Retorna lista ordenada por preço (mais barato → mais caro).
-
----
-
-## 6. Listagem de Todos os Veículos
-
-**Use Case:** `ObterVeiculoUseCase`  
-**Validações:**
-- Sempre retorna lista (mesmo que vazia).
-
----
-
-## 7. Enum `StatusVeiculo`
-
-- `DISPONIVEL` → à venda
-- `RESERVADO` → reservado
-- `VENDIDO` → vendido
-
+- Swagger Veículo: [http://localhost:8082/swagger-ui/index.html](http://localhost:8082/swagger-ui/index.html)
