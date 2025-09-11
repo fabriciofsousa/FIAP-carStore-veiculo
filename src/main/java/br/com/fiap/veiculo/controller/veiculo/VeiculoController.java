@@ -64,7 +64,8 @@ public class VeiculoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid Veiculo veiculo) {
+    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO) {
+        Veiculo veiculo = VeiculoMapper.toDomain(veiculoRequestDTO);
         Veiculo atualizado = alterarVeiculoUseCase.execute(id, veiculo);
         return ResponseEntity.ok(atualizado);
     }

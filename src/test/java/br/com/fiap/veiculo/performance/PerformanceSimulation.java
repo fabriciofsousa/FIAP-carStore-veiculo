@@ -27,7 +27,7 @@ public class PerformanceSimulation extends Simulation {
      * Gera um JSON válido para VeiculoRequestDTO usando campos básicos.
      * Usamos uma lambda para garantir dados únicos por requisição (gera um sufixo com UUID curto).
      */
-    private String createVeiculoJson(Session session) {
+    private String createVeiculoJson() {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
         return "{"
                 + "\"marca\":\"Marca-" + suffix + "\","
@@ -42,7 +42,7 @@ public class PerformanceSimulation extends Simulation {
     // Action: criar veículo (verifica 201 e salva id retornado em jsonPath)
     ActionBuilder criarVeiculo = http("POST /veiculo - criar")
             .post("/veiculo")
-            .body(StringBody(session -> createVeiculoJson(session)))
+            .body(StringBody(session -> createVeiculoJson()))
             .check(status().is(201))
             .check(io.gatling.javaapi.core.CoreDsl.jsonPath("$.id").saveAs("createdId"));
 
