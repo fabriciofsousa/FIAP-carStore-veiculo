@@ -3,9 +3,9 @@ package br.com.fiap.veiculo.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class VeiculoNaoEncontradoException extends RuntimeException{
-    public VeiculoNaoEncontradoException(String message) {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class VeiculoVendidoException extends RuntimeException{
+    public VeiculoVendidoException(String message) {
         super(message);
     }
 }

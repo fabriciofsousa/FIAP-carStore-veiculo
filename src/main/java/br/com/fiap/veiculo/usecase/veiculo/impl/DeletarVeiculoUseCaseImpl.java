@@ -1,6 +1,7 @@
 package br.com.fiap.veiculo.usecase.veiculo.impl;
 
 import br.com.fiap.veiculo.exception.VeiculoNaoEncontradoException;
+import br.com.fiap.veiculo.exception.VeiculoVendidoException;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
 import br.com.fiap.veiculo.infra.provider.VeiculoPovider;
 import br.com.fiap.veiculo.usecase.veiculo.DeletarVeiculoUseCase;
@@ -25,7 +26,7 @@ public class DeletarVeiculoUseCaseImpl implements DeletarVeiculoUseCase {
                 .orElseThrow(() -> new VeiculoNaoEncontradoException("Veículo não encontrado"));
 
          if (veiculo.getStatus() == StatusVeiculo.VENDIDO) {
-             throw new IllegalArgumentException("Não é possível deletar um veículo vendido");
+             throw new VeiculoVendidoException("Não é possível deletar um veículo vendido");
          }
 
         veiculoGateway.deletar(id);

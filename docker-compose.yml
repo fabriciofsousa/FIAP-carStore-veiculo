@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  postgres_carstore:
+    image: postgres:15
+    container_name: postgres_carstore
+    environment:
+      POSTGRES_DB: FIAP-carStore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - carstore-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    image: fabriciofsousa/fiap-carstore-veiculo:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_carstore:5432/FIAP-carStore
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8082:8080"
+    depends_on:
+      postgres_carstore:
+        condition: service_healthy
+    networks:
+      - carstore-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+networks:
+  carstore-network:
+    name: carstore-network
+    driver: bridge
