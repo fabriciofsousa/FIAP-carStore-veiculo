@@ -169,7 +169,7 @@ class VeiculoControllerTest {
 
             // quando o usecase for chamado, lança VeiculoNaoEncontradoException
             doThrow(new VeiculoNaoEncontradoException("Veiculo não encontrado"))
-                    .when(alterarVeiculoUseCase).execute(eq(id), any(Veiculo.class));
+                    .when(alterarVeiculoUseCase).execute((id), any(Veiculo.class));
 
             mockMvc.perform(put("/veiculo/{id}", id)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -215,7 +215,7 @@ class VeiculoControllerTest {
             UUID id = UUID.randomUUID();
 
             doThrow(new VeiculoVendidoException("Não é possível deletar um veículo já vendido"))
-                    .when(deletarVeiculo).execute(eq(id));
+                    .when(deletarVeiculo).execute((id));
 
             mockMvc.perform(delete("/veiculo/{id}", id))
                     .andExpect(status().isBadRequest())
@@ -251,7 +251,7 @@ class VeiculoControllerTest {
         void naoDeveObterVeiculoInexistentePorId() throws Exception {
             UUID id = UUID.randomUUID();
 
-            when(obterVeiculoPorIdUseCase.execute(eq(id))).thenReturn(Optional.empty());
+            when(obterVeiculoPorIdUseCase.execute((id))).thenReturn(Optional.empty());
 
             mockMvc.perform(get("/veiculo/{id}", id))
                     .andExpect(status().isNotFound());
