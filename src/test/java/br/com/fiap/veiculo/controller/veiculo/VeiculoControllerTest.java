@@ -1,37 +1,39 @@
 package br.com.fiap.veiculo.controller.veiculo;
 
+import br.com.fiap.veiculo.config.GlobalExceptionHandler;
+import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
+import br.com.fiap.veiculo.domain.Veiculo;
+import br.com.fiap.veiculo.exception.VeiculoNaoEncontradoException;
+import br.com.fiap.veiculo.exception.VeiculoVendidoException;
+import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
+import br.com.fiap.veiculo.infra.provider.VeiculoPovider;
+import br.com.fiap.veiculo.usecase.veiculo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import br.com.fiap.veiculo.config.GlobalExceptionHandler;
-import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
-import br.com.fiap.veiculo.exception.VeiculoNaoEncontradoException;
-import br.com.fiap.veiculo.exception.VeiculoVendidoException;
-import br.com.fiap.veiculo.infra.provider.VeiculoPovider;
-import br.com.fiap.veiculo.usecase.veiculo.*;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.*;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.com.fiap.veiculo.domain.Veiculo;
-import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
+@ActiveProfiles("test")
 class VeiculoControllerTest {
 
     private MockMvc mockMvc;
@@ -85,7 +87,7 @@ class VeiculoControllerTest {
                     .status(StatusVeiculo.DISPONIVEL)
                     .build();
 
-            when(criarVeiculoUseCase.execute(any(Veiculo.class))).thenReturn(veiculo);
+            when(criarVeiculoUseCase.execute(any())).thenReturn(veiculo);
 
             mockMvc.perform(post("/veiculo")
                             .contentType(MediaType.APPLICATION_JSON)
@@ -169,7 +171,7 @@ class VeiculoControllerTest {
 
             // quando o usecase for chamado, lança VeiculoNaoEncontradoException
             doThrow(new VeiculoNaoEncontradoException("Veiculo não encontrado"))
-                    .when(alterarVeiculoUseCase).execute((id), any(Veiculo.class));
+                    .when(alterarVeiculoUseCase).execute(any(), any());
 
             mockMvc.perform(put("/veiculo/{id}", id)
                             .contentType(MediaType.APPLICATION_JSON)

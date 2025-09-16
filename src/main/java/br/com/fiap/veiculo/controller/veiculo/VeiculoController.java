@@ -5,6 +5,11 @@ import br.com.fiap.veiculo.controller.veiculo.mapper.VeiculoMapper;
 import br.com.fiap.veiculo.domain.Veiculo;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
 import br.com.fiap.veiculo.usecase.veiculo.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +42,33 @@ public class VeiculoController {
         this.obterVeiculosPorStatusUseCase = obterVeiculosPorStatusUseCase;
     }
 
+    @Operation(
+            summary = "Cria um novo veículo",
+            description = "Cadastra um veículo no sistema",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Dados do veículo (exemplo)",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = VeiculoRequestDTO.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "exemploCriarVeiculo",
+                                            value = """
+                                                    {
+                                                      "marca": "Honda",
+                                                      "modelo": "Civic",
+                                                      "ano": 2022,
+                                                      "cor": "Preto",
+                                                      "preco": 95000.0,
+                                                      "quilometragem": 15000
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
+            )
+    )
     @PostMapping
     public ResponseEntity<Veiculo> criarVeiculo(@RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO) {
         Veiculo veiculo = VeiculoMapper.toDomain(veiculoRequestDTO);
@@ -51,15 +83,17 @@ public class VeiculoController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("/disponiveis")
-    public ResponseEntity<List<Veiculo>> listarVeiculosDisponiveis() {
-        List<Veiculo> veiculos = obterVeiculosPorStatusUseCase.execute(StatusVeiculo.DISPONIVEL);
-        return ResponseEntity.ok(veiculos);
-    }
-
-    @GetMapping("/vendidos")
-    public ResponseEntity<List<Veiculo>> listarVeiculosVendidos() {
-        List<Veiculo> veiculos = obterVeiculosPorStatusUseCase.execute(StatusVeiculo.VENDIDO);
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Veiculo>> listarVeiculosPorStatus(
+            @Parameter(
+                    description = "Status do veículo",
+                    required = true,
+                    schema = @Schema(implementation = StatusVeiculo.class),
+                    example = "DISPONIVEL"
+            )
+            @PathVariable StatusVeiculo status
+    ) {
+        List<Veiculo> veiculos = obterVeiculosPorStatusUseCase.execute(status);
         return ResponseEntity.ok(veiculos);
     }
 
