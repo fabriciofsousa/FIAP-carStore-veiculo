@@ -4,6 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<properties>
 		<sonar.organization>fiapeats-test</sonar.organization>
+		<java.version>17</java.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -29,9 +30,6 @@
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
