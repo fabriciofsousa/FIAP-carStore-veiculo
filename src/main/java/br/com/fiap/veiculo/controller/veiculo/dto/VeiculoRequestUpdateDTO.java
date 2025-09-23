@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VeiculoRequestDTO {
+public class VeiculoRequestUpdateDTO {
 
     @NotBlank(message = "Marca não pode ser vazio")
     private String marca;
@@ -36,6 +36,9 @@ public class VeiculoRequestDTO {
     @NotNull(message = "Quilometragem é obrigatória")
     @PositiveOrZero(message = "Quilometragem não pode ser negativa")
     private Integer quilometragem;
+
+    @NotNull(message = "Status deve ser informado na atualização")
+    private StatusVeiculo status;
 
 
 }

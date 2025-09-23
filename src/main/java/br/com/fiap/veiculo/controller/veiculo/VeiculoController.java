@@ -1,6 +1,7 @@
 package br.com.fiap.veiculo.controller.veiculo;
 
 import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
+import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestUpdateDTO;
 import br.com.fiap.veiculo.controller.veiculo.mapper.VeiculoMapper;
 import br.com.fiap.veiculo.domain.Veiculo;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
@@ -98,7 +99,7 @@ public class VeiculoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO) {
+    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable UUID id, @RequestBody @Valid VeiculoRequestUpdateDTO veiculoRequestDTO) {
         Veiculo veiculo = VeiculoMapper.toDomain(veiculoRequestDTO);
         Veiculo atualizado = alterarVeiculoUseCase.execute(id, veiculo);
         return ResponseEntity.ok(atualizado);

@@ -1,5 +1,11 @@
 version: '3.9'
 
+networks:
+  carstore-network:
+    driver: bridge
+    name: carstore-network
+    external: false
+
 services:
   postgres_carstore:
     image: postgres:15
@@ -19,7 +25,7 @@ services:
       retries: 10
       start_period: 10s
 
-  app:
+  veiculos-app:
     image: fabriciofsousa/fiap-carstore-veiculo:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_carstore:5432/FIAP-carStore
@@ -27,6 +33,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
     ports:
       - "8082:8080"
+      - "5005:5005"   # porta debug
     depends_on:
       postgres_carstore:
         condition: service_healthy
@@ -38,8 +45,3 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
-
-networks:
-  carstore-network:
-    name: carstore-network
-    driver: bridge

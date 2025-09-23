@@ -4,6 +4,8 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.Matchers.*;
 
 import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
+import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestUpdateDTO;
+import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
 import io.restassured.RestAssured;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -205,8 +207,8 @@ public class VeiculoControllerIT {
 
         @Test
         void deveAtualizarCamposValidos() {
-            VeiculoRequestDTO veiculo = new VeiculoRequestDTO(
-                    "Honda", "Civic", 2019, "Preto", new BigDecimal("85000"), 20000
+            VeiculoRequestUpdateDTO veiculo = new VeiculoRequestUpdateDTO(
+                    "Honda", "Civic", 2019, "Preto", new BigDecimal("85000"), 20000, StatusVeiculo.DISPONIVEL
             );
 
             UUID id = UUID.fromString(
