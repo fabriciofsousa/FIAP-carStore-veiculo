@@ -69,7 +69,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Run System Tests
-        run: mvn clean verify -P system-test -Dtest=CucumberTest
+        run: mvn clean verify -P system-test -Dtest=CucumberTest -Dsurefire.failIfNoSpecifiedTests=false
 
   coverage:
     runs-on: ubuntu-latest
