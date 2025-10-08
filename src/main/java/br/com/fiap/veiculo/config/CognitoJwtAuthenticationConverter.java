@@ -23,12 +23,11 @@ public class CognitoJwtAuthenticationConverter implements Converter<Jwt, Abstrac
     }
 
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-        // Extrai roles do claim 'cognito:groups'
         List<String> groups = jwt.getClaimAsStringList("cognito:groups");
 
         if (groups != null) {
             return groups.stream()
-                    .map(group -> new SimpleGrantedAuthority("ROLE_" + group.toUpperCase()))
+                    .map(group -> new SimpleGrantedAuthority(group.toUpperCase()))
                     .collect(Collectors.toList());
         }
 

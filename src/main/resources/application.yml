@@ -19,23 +19,30 @@ spring:
       client:
         registration:
           cognito:
-            client-id: uiirrd4fog77qj2o91ers5edk
+            client-id: ${COGNITO_CLIENT_ID}
             scope: openid
             redirect-uri: "{baseUrl}/login/oauth2/code/cognito"
             client-name: Cognito
             authorization-grant-type: authorization_code
         provider:
           cognito:
-            issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_LFntHymVY
+            issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/${COGNITO_USER_POOL_ID}
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_LFntHymVY
+          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/${COGNITO_USER_POOL_ID}
+  app:
+    security:
+      cognito:
+        groups-claim: cognito:groups
 
-app:
-  security:
-    cognito:
-      groups-claim: cognito:groups
+  logging:
+    level:
+      org.springframework.security: DEBUG
+cognito:
+  user-pool-id: ${COGNITO_USER_POOL_ID}
+  client-id: ${COGNITO_CLIENT_ID}
+  region: ${COGNITO_REGION}
 
-logging:
-  level:
-    org.springframework.security: DEBUG
+aws:
+  profile: carstore
+

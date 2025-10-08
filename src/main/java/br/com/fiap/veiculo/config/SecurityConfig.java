@@ -14,6 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final CognitoJwtAuthenticationConverter cognitoJwtAuthConverter;
+
+    public SecurityConfig(CognitoJwtAuthenticationConverter cognitoJwtAuthConverter) {
+        this.cognitoJwtAuthConverter = cognitoJwtAuthConverter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -35,17 +41,21 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/veiculo/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/veiculo").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/veiculo/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/veiculo/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/veiculo/**").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/veiculo").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/veiculo/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/veiculo/**").hasAnyAuthority("ADMIN")
 
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                .jwtAuthenticationConverter(cognitoJwtAuthConverter)
+                        )
+                )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable());
-
+        
         return http.build();
     }
 }
