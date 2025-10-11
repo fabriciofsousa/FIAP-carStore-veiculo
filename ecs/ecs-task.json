@@ -19,9 +19,9 @@
         }
       ],
       "environment": [
-        { "name": "COGNITO_CLIENT_ID", "value": "13f0vjhh1h7pg77ult8uv69vs5" },
+        { "name": "COGNITO_CLIENT_ID", "value": "6qkenoi25edom3tr9k5ar2eni0" },
         { "name": "COGNITO_REGION", "value": "us-east-1" },
-        { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_IghpqsPls" },
+        { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_zV9ZTahOx" },
         { "name": "DB_HOST", "value": "carstore-rds.cgtguu4oq8ce.us-east-1.rds.amazonaws.com" },
         { "name": "DB_NAME", "value": "carstore" },
         { "name": "DB_USERNAME", "value": "postgres" },
