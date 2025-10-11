@@ -13,9 +13,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -29,6 +31,9 @@ public class VeiculoControllerIT {
 
     @LocalServerPort
     private int port;
+
+    @MockBean
+    private JwtDecoder jwtDecoder;
 
     @Autowired
     private WebApplicationContext context;
@@ -222,8 +227,8 @@ public class VeiculoControllerIT {
                             .extract().path("id")
             );
 
-            VeiculoRequestDTO updateVeiculo = new VeiculoRequestDTO(
-                    "Honda", "Civic", 2019, "Branco", new BigDecimal("88000"), 20000
+            VeiculoRequestUpdateDTO updateVeiculo = new VeiculoRequestUpdateDTO(
+                    "Honda", "Civic", 2019, "Branco", new BigDecimal("88000"), 20000, StatusVeiculo.DISPONIVEL
             );
 
             given()

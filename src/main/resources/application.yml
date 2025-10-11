@@ -43,6 +43,4 @@ cognito:
   client-id: ${COGNITO_CLIENT_ID}
   region: ${COGNITO_REGION}
 
-aws:
-  profile: carstore
 
