@@ -26,6 +26,7 @@ services:
       start_period: 10s
 
   veiculos-app:
+    container_name: veiculos-app
     image: fabriciofsousa/fiap-carstore-veiculo:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_carstore:5432/FIAP-carStore
@@ -38,7 +39,9 @@ services:
       postgres_carstore:
         condition: service_healthy
     networks:
-      - carstore-network
+      carstore-network:
+        aliases:
+          - veiculos-app
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
