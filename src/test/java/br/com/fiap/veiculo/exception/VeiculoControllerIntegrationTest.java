@@ -7,6 +7,7 @@ import br.com.fiap.veiculo.domain.Veiculo;
 import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
 import br.com.fiap.veiculo.usecase.veiculo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -21,12 +23,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = VeiculoController.class)
+@WebMvcTest(controllers = VeiculoController.class,
+        excludeAutoConfiguration = {
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration.class
+        })
+
+@TestPropertySource(properties = {
+        "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://cognito-idp.us-east-1.amazonaws.com/fake-pool-id",
+        "cognito.user-pool-id=fake-pool-id"
+})
 @Import(GlobalExceptionHandler.class)
 class VeiculoControllerIntegrationTest {
 
@@ -36,13 +48,13 @@ class VeiculoControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // todos os usecases que o controller injeta como dependência precisam ser MockBean aqui
     @MockBean private CriarVeiculoUseCase criarVeiculoUseCase;
     @MockBean private ObterVeiculoUseCase obterVeiculoUseCase;
     @MockBean private ObterVeiculoPorIdUseCase obterVeiculoPorIdUseCase;
     @MockBean private AlterarVeiculoUseCase alterarVeiculoUseCase;
     @MockBean private DeletarVeiculoUseCase deletarVeiculo;
-    @MockBean private ObterVeiculosPorStatusUseCase obterVeiculosPorStatusUseCase; // <- adicionado
+    @MockBean private ObterVeiculosPorStatusUseCase obterVeiculosPorStatusUseCase;
+
 
     // ----- POST /veiculo -----
     @Test
@@ -133,7 +145,7 @@ class VeiculoControllerIntegrationTest {
                 .status(StatusVeiculo.DISPONIVEL)
                 .build();
 
-        Mockito.when(obterVeiculoPorIdUseCase.execute(id)).thenReturn(Optional.of(v));
+        Mockito.when(obterVeiculoPorIdUseCase.execute(any())).thenReturn(Optional.of(v));
 
         mockMvc.perform(get("/veiculo/{id}", id))
                 .andExpect(status().isOk())
@@ -144,11 +156,14 @@ class VeiculoControllerIntegrationTest {
     @Test
     void getById_quandoNaoExiste_entao404() throws Exception {
         UUID id = UUID.randomUUID();
-        Mockito.when(obterVeiculoPorIdUseCase.execute(id)).thenReturn(Optional.empty());
+
+        Mockito.when(obterVeiculoPorIdUseCase.execute(any()))
+                .thenReturn(Optional.empty());
 
         mockMvc.perform(get("/veiculo/{id}", id))
                 .andExpect(status().isNotFound());
     }
+
 
     // ----- PUT /veiculo/{id} -----
     @Test
@@ -165,7 +180,7 @@ class VeiculoControllerIntegrationTest {
                 .status(StatusVeiculo.DISPONIVEL)
                 .build();
 
-        Mockito.when(alterarVeiculoUseCase.execute(id, any(Veiculo.class))).thenReturn(atualizado);
+        Mockito.when(alterarVeiculoUseCase.execute(any(), any())).thenReturn(atualizado);
 
         Veiculo request = Veiculo.builder()
                 .marca("Honda")
@@ -189,7 +204,7 @@ class VeiculoControllerIntegrationTest {
         UUID id = UUID.randomUUID();
 
         Mockito.doThrow(new VeiculoNaoEncontradoException("Veiculo não encontrado"))
-                .when(alterarVeiculoUseCase).execute(id, any(Veiculo.class));
+                .when(alterarVeiculoUseCase).execute(any(), any());
 
         Veiculo request = Veiculo.builder()
                 .marca("Honda")

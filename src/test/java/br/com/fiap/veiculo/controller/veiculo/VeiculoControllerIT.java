@@ -4,6 +4,8 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.Matchers.*;
 
 import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestDTO;
+import br.com.fiap.veiculo.controller.veiculo.dto.VeiculoRequestUpdateDTO;
+import br.com.fiap.veiculo.infra.database.entity.veiculo.StatusVeiculo;
 import io.restassured.RestAssured;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +13,12 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -21,10 +26,14 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class VeiculoControllerIT {
 
     @LocalServerPort
     private int port;
+
+    @MockBean
+    private JwtDecoder jwtDecoder;
 
     @Autowired
     private WebApplicationContext context;
@@ -181,7 +190,7 @@ public class VeiculoControllerIT {
         void deveListarVeiculosPorStatusDisponivel() {
             given()
                     .when()
-                    .get("/veiculo/disponiveis")
+                    .get("/veiculo/status/DISPONIVEL")
                     .then()
                     .statusCode(HttpStatus.OK.value())
                     .body("$", notNullValue());
@@ -191,7 +200,7 @@ public class VeiculoControllerIT {
         void deveListarVeiculosPorStatusVendido() {
             given()
                     .when()
-                    .get("/veiculo/vendidos")
+                    .get("/veiculo/status/VENDIDO")
                     .then()
                     .statusCode(HttpStatus.OK.value())
                     .body("$", notNullValue());
@@ -203,8 +212,8 @@ public class VeiculoControllerIT {
 
         @Test
         void deveAtualizarCamposValidos() {
-            VeiculoRequestDTO veiculo = new VeiculoRequestDTO(
-                    "Honda", "Civic", 2019, "Preto", new BigDecimal("85000"), 20000
+            VeiculoRequestUpdateDTO veiculo = new VeiculoRequestUpdateDTO(
+                    "Honda", "Civic", 2019, "Preto", new BigDecimal("85000"), 20000, StatusVeiculo.DISPONIVEL
             );
 
             UUID id = UUID.fromString(
@@ -218,8 +227,8 @@ public class VeiculoControllerIT {
                             .extract().path("id")
             );
 
-            VeiculoRequestDTO updateVeiculo = new VeiculoRequestDTO(
-                    "Honda", "Civic", 2019, "Branco", new BigDecimal("88000"), 20000
+            VeiculoRequestUpdateDTO updateVeiculo = new VeiculoRequestUpdateDTO(
+                    "Honda", "Civic", 2019, "Branco", new BigDecimal("88000"), 20000, StatusVeiculo.DISPONIVEL
             );
 
             given()
