@@ -55,7 +55,7 @@ public class AlterarVeiculoUseCaseImpl implements AlterarVeiculoUseCase {
         }
         if (veiculoPatch.getStatus() != null) {
             validarStatus(veiculoPatch.getStatus());
-            veiculoExistente.setStatus(veiculoPatch.getStatus());
+            veiculoExistente.setStatus(StatusVeiculo.valueOf(String.valueOf(veiculoPatch.getStatus())));
         }
 
         veiculoExistente.setDataAtualizacao(LocalDateTime.now());
