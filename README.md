@@ -32,6 +32,14 @@ Com essa separação, o sistema é altamente **escalável, testável e fácil de
 - As portas **5432** (PostgreSQL) e **8082** (aplicação Veículo) devem estar livres.
 
 ---
+## ☁️ Branches e Ambientes
+
+| Branch | Ambiente | Descrição |
+|--------|-----------|------------|
+| `master` | **AWS Cloud** | Código utilizado para execução e deploy automático na AWS. |
+| `release/docker` | **Local (Docker)** | Versão configurada para rodar em ambiente local via Docker Compose. |
+
+---
 
 ## ▶️ Para rodar localmente
 
