@@ -1,0 +1,1539 @@
+{
+	"info": {
+		"_postman_id": "e76d2614-04e7-4eb1-9d39-fc1ce715c5fa",
+		"name": "Fiap-Carstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9619193"
+	},
+	"item": [
+		{
+			"name": "clientes",
+			"item": [
+				{
+					"name": "obter Cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_cliente}}/clientes",
+							"host": [
+								"{{host_cliente}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clientes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"cpf\": \"95033273084\",\n    \"email\": \"string\",\n    \"nome\": \"string\",\n    \"id\": \"079b112d-1461-2a48-ef17-fea60b4dfb30\"\n  },\n  {\n    \"cpf\": \"80807311365\",\n    \"email\": \"string\",\n    \"nome\": \"string\",\n    \"id\": \"626b3ab5-bc82-d7b5-51e8-e906ede0a1f8\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "obter Cliente Por Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_cliente}}/clientes/:id",
+							"host": [
+								"{{host_cliente}}"
+							],
+							"path": [
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c8734e71-52c7-4f86-883a-deac0c63df1f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clientes/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clientes",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"cpf\": \"38849443249\",\n  \"email\": \"string\",\n  \"nome\": \"string\",\n  \"id\": \"7f169500-0322-0543-2523-a40d6d13fcf8\"\n}"
+						}
+					]
+				},
+				{
+					"name": "criar Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Jose\",\n  \"cpf\": \"08935853003\",\n  \"email\": \"jose@email.com\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_cliente}}/clientes",
+							"host": [
+								"{{host_cliente}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"string\",\n  \"cpf\": \"string\",\n  \"email\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clientes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"string\",\n  \"nome\": \"string\",\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"senha\": \"string\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update Cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Fabricio222\",\n    \"cpf\": \"92716609004\",\n    \"email\": \"f2222@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_cliente}}/clientes/:id",
+							"host": [
+								"{{host_cliente}}"
+							],
+							"path": [
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "7eb71e68-4457-4753-85f9-2c486d105384"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"string\",\n  \"cpf\": \"string\",\n  \"email\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clientes/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clientes",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"cpf\": \"38849443249\",\n  \"email\": \"string\",\n  \"nome\": \"string\",\n  \"id\": \"7f169500-0322-0543-2523-a40d6d13fcf8\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete Cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_cliente}}/clientes/:id",
+							"host": [
+								"{{host_cliente}}"
+							],
+							"path": [
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dbe7fcb5-0641-4fb6-947b-2bab01be61cf"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clientes/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clientes",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "veiculo",
+			"item": [
+				{
+					"name": "Cria um novo veículo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"marca\": \"Honda\",\n  \"modelo\": \"Civic\",\n  \"ano\": 2022,\n  \"cor\": \"Preto\",\n  \"preco\": 95000,\n  \"quilometragem\": 15000\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_veiculos}}/veiculo",
+							"host": [
+								"{{host_veiculos}}"
+							],
+							"path": [
+								"veiculo"
+							]
+						},
+						"description": "Cadastra um veículo no sistema"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"marca\": \"Honda\",\n  \"modelo\": \"Civic\",\n  \"ano\": 2022,\n  \"cor\": \"Preto\",\n  \"preco\": 95000,\n  \"quilometragem\": 15000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/veiculo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"veiculo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"b4cc6185-267a-d2f7-aaca-6f7bd9b0c7fa\",\n  \"marca\": \"string\",\n  \"modelo\": \"string\",\n  \"ano\": 9605,\n  \"cor\": \"string\",\n  \"preco\": 734.7276230978262,\n  \"quilometragem\": 9092,\n  \"status\": \"RESERVADO\",\n  \"dataCadastro\": \"1963-04-06T03:59:32.258Z\",\n  \"dataAtualizacao\": \"2007-08-19T06:07:28.836Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "listar Veiculos Por Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_veiculos}}/veiculo/status/:status",
+							"host": [
+								"{{host_veiculos}}"
+							],
+							"path": [
+								"veiculo",
+								"status",
+								":status"
+							],
+							"variable": [
+								{
+									"key": "status",
+									"value": "RESERVADO",
+									"description": "Status do veículo"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/veiculo/status/:status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"veiculo",
+										"status",
+										":status"
+									],
+									"variable": [
+										{
+											"key": "status"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"3c3853b2-fb32-7b14-a9ee-5e227231cefb\",\n    \"marca\": \"string\",\n    \"modelo\": \"string\",\n    \"ano\": 9989,\n    \"cor\": \"string\",\n    \"preco\": 6442.358445590208,\n    \"quilometragem\": 3337,\n    \"status\": \"DISPONIVEL\",\n    \"dataCadastro\": \"2017-10-25T05:58:35.131Z\",\n    \"dataAtualizacao\": \"1950-11-14T02:27:03.779Z\"\n  },\n  {\n    \"id\": \"9cbb47fb-2a15-c1f2-0499-e6f5ca4fb3f4\",\n    \"marca\": \"string\",\n    \"modelo\": \"string\",\n    \"ano\": 1695,\n    \"cor\": \"string\",\n    \"preco\": 993.7436942977151,\n    \"quilometragem\": 6133,\n    \"status\": \"VENDIDO\",\n    \"dataCadastro\": \"2003-05-28T01:39:53.456Z\",\n    \"dataAtualizacao\": \"1951-04-21T14:16:03.449Z\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "obter Veiculo Por Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_veiculos}}/veiculo/:id",
+							"host": [
+								"{{host_veiculos}}"
+							],
+							"path": [
+								"veiculo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9752dbe6-7a53-4b8d-a171-203f5b2236ad"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/veiculo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"veiculo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"b4cc6185-267a-d2f7-aaca-6f7bd9b0c7fa\",\n  \"marca\": \"string\",\n  \"modelo\": \"string\",\n  \"ano\": 9605,\n  \"cor\": \"string\",\n  \"preco\": 734.7276230978262,\n  \"quilometragem\": 9092,\n  \"status\": \"RESERVADO\",\n  \"dataCadastro\": \"1963-04-06T03:59:32.258Z\",\n  \"dataAtualizacao\": \"2007-08-19T06:07:28.836Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "atualizar Veiculo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"marca\": \"Honda\",\n    \"modelo\": \"Civic\",\n    \"ano\": 2025,\n    \"cor\": \"Preto\",\n    \"preco\": 95000.00,\n    \"quilometragem\": 15000,\n    \"status\": \"VENDIDO\",\n    \"dataCadastro\": \"2025-10-12T11:47:26.234395\",\n    \"dataAtualizacao\": \"2025-10-12T11:47:26.234429\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_veiculos}}/veiculo/:id",
+							"host": [
+								"{{host_veiculos}}"
+							],
+							"path": [
+								"veiculo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "b27fefb8-00f5-4446-b281-48d61f26c2c6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ano\": 2052,\n  \"cor\": \"string\",\n  \"marca\": \"string\",\n  \"modelo\": \"string\",\n  \"preco\": 6019.944932792502,\n  \"quilometragem\": 3629,\n  \"status\": \"VENDIDO\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/veiculo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"veiculo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"b4cc6185-267a-d2f7-aaca-6f7bd9b0c7fa\",\n  \"marca\": \"string\",\n  \"modelo\": \"string\",\n  \"ano\": 9605,\n  \"cor\": \"string\",\n  \"preco\": 734.7276230978262,\n  \"quilometragem\": 9092,\n  \"status\": \"RESERVADO\",\n  \"dataCadastro\": \"1963-04-06T03:59:32.258Z\",\n  \"dataAtualizacao\": \"2007-08-19T06:07:28.836Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "deletar Veiculo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_veiculos}}/veiculo/:id",
+							"host": [
+								"{{host_veiculos}}"
+							],
+							"path": [
+								"veiculo",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ba6cadea-6fdf-4ca4-b65d-acd024b1c56f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/veiculo/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"veiculo",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "vendas",
+			"item": [
+				{
+					"name": "criar Venda",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clienteId\": \"c8734e71-52c7-4f86-883a-deac0c63df1f\",\n  \"veiculoId\": \"9752dbe6-7a53-4b8d-a171-203f5b2236ad\",\n  \"valorPago\": 85500,\n  \"formaPagamento\": \"CARTAO\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_vendas}}/vendas",
+							"host": [
+								"{{host_vendas}}"
+							],
+							"path": [
+								"vendas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"clienteId\": \"5b49207b-d0f9-0c20-6783-52b33023a79f\",\n  \"veiculoId\": \"b2752011-e95c-1091-42b8-7635a30f0c55\",\n  \"valorPago\": 3166.2621389753176,\n  \"formaPagamento\": \"BOLETO\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/vendas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vendas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "obter Venda Por Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_vendas}}/vendas/:id",
+							"host": [
+								"{{host_vendas}}"
+							],
+							"path": [
+								"vendas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "978e065f-98d3-ca54-daef-8b0600ec1e32"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/vendas/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vendas",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"a8c5e3f3-a30e-c177-f3b9-f0752b1aa6ef\",\n  \"clienteId\": \"ee05eb23-23fa-3e0f-f4db-12211b9ac0a6\",\n  \"veiculoId\": \"17e1f94d-24aa-8f63-fe81-3cba43c31c6e\",\n  \"status\": \"string\",\n  \"dataVenda\": \"1957-10-26T08:57:22.435Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "alterar Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_vendas}}/vendas/:id/status?status=string",
+							"host": [
+								"{{host_vendas}}"
+							],
+							"path": [
+								"vendas",
+								":id",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "string"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "978e065f-98d3-ca54-daef-8b0600ec1e32"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/vendas/:id/status?status=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vendas",
+										":id",
+										"status"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "string"
+										}
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"a8c5e3f3-a30e-c177-f3b9-f0752b1aa6ef\",\n  \"clienteId\": \"ee05eb23-23fa-3e0f-f4db-12211b9ac0a6\",\n  \"veiculoId\": \"17e1f94d-24aa-8f63-fe81-3cba43c31c6e\",\n  \"status\": \"string\",\n  \"dataVenda\": \"1957-10-26T08:57:22.435Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "listar Vendas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{host_vendas}}/vendas/status/:status",
+							"host": [
+								"{{host_vendas}}"
+							],
+							"path": [
+								"vendas",
+								"status",
+								":status"
+							],
+							"variable": [
+								{
+									"key": "status",
+									"value": "CONCLUIDA"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/vendas/status/:status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vendas",
+										"status",
+										":status"
+									],
+									"variable": [
+										{
+											"key": "status"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"fb691a87-1c28-14a5-a013-2508b0ded118\",\n    \"clienteId\": \"4169c935-a430-c2f1-43d2-14550b56c1f3\",\n    \"veiculoId\": \"102489a8-ecff-6fd2-88c8-a26a0b7f01b0\",\n    \"status\": \"string\",\n    \"dataVenda\": \"1967-09-02T22:06:18.912Z\"\n  },\n  {\n    \"id\": \"87631763-4e23-1078-14db-a07542f64e9a\",\n    \"clienteId\": \"f55fa6a6-9a47-f518-707b-4eee881cc37c\",\n    \"veiculoId\": \"58eda62a-d2f3-ed32-a8f9-25998ec61a72\",\n    \"status\": \"string\",\n    \"dataVenda\": \"1967-02-22T02:06:50.645Z\"\n  }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const username = pm.environment.get(\"USERNAME\");\r",
+							"const clientId = pm.environment.get(\"CLIENT_ID\");\r",
+							"const clientSecret = pm.environment.get(\"CLIENT_SECRET\");\r",
+							"\r",
+							"async function generateSecretHash(username, clientId, clientSecret) {\r",
+							"    const encoder = new TextEncoder();\r",
+							"    const key = await crypto.subtle.importKey(\r",
+							"        \"raw\",\r",
+							"        encoder.encode(clientSecret),\r",
+							"        { name: \"HMAC\", hash: \"SHA-256\" },\r",
+							"        false,\r",
+							"        [\"sign\"]\r",
+							"    );\r",
+							"\r",
+							"    const signature = await crypto.subtle.sign(\r",
+							"        \"HMAC\",\r",
+							"        key,\r",
+							"        encoder.encode(username + clientId)\r",
+							"    );\r",
+							"\r",
+							"    const base64 = btoa(String.fromCharCode(...new Uint8Array(signature)));\r",
+							"    return base64;\r",
+							"}\r",
+							"\r",
+							"generateSecretHash(username, clientId, clientSecret)\r",
+							"    .then(secretHash => {\r",
+							"        pm.environment.set(\"SECRET_HASH\", secretHash);\r",
+							"    })\r",
+							"    .catch(err => console.error(\"Error generating SecretHash\", err));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-amz-json-1.1"
+					},
+					{
+						"key": "X-Amz-Target",
+						"value": "AWSCognitoIdentityProviderService.InitiateAuth"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"AuthFlow\": \"USER_PASSWORD_AUTH\",\n  \"ClientId\": \"{{client_id}}\",\n  \"AuthParameters\": {\n    \"USERNAME\": \"{{email}}\",\n    \"PASSWORD\": \"{{senha}}\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cognito-idp.us-east-1.amazonaws.com/AuthenticationResult/AccessToken",
+					"protocol": "https",
+					"host": [
+						"cognito-idp",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"AuthenticationResult",
+						"AccessToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token ADMIN",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const username = pm.environment.get(\"USERNAME\");\r",
+							"const clientId = pm.environment.get(\"CLIENT_ID\");\r",
+							"const clientSecret = pm.environment.get(\"CLIENT_SECRET\");\r",
+							"\r",
+							"async function generateSecretHash(username, clientId, clientSecret) {\r",
+							"    const encoder = new TextEncoder();\r",
+							"    const key = await crypto.subtle.importKey(\r",
+							"        \"raw\",\r",
+							"        encoder.encode(clientSecret),\r",
+							"        { name: \"HMAC\", hash: \"SHA-256\" },\r",
+							"        false,\r",
+							"        [\"sign\"]\r",
+							"    );\r",
+							"\r",
+							"    const signature = await crypto.subtle.sign(\r",
+							"        \"HMAC\",\r",
+							"        key,\r",
+							"        encoder.encode(username + clientId)\r",
+							"    );\r",
+							"\r",
+							"    const base64 = btoa(String.fromCharCode(...new Uint8Array(signature)));\r",
+							"    return base64;\r",
+							"}\r",
+							"\r",
+							"generateSecretHash(username, clientId, clientSecret)\r",
+							"    .then(secretHash => {\r",
+							"        pm.environment.set(\"SECRET_HASH\", secretHash);\r",
+							"    })\r",
+							"    .catch(err => console.error(\"Error generating SecretHash\", err));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-amz-json-1.1"
+					},
+					{
+						"key": "X-Amz-Target",
+						"value": "AWSCognitoIdentityProviderService.InitiateAuth"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"AuthFlow\": \"USER_PASSWORD_AUTH\",\n  \"ClientId\": \"{{client_id}}\",\n  \"AuthParameters\": {\n    \"USERNAME\": \"{{email_admin}}\",\n    \"PASSWORD\": \"{{senha_admin}}\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cognito-idp.us-east-1.amazonaws.com/AuthenticationResult/AccessToken",
+					"protocol": "https",
+					"host": [
+						"cognito-idp",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"AuthenticationResult",
+						"AccessToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Pass",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-amz-json-1.1"
+					},
+					{
+						"key": "X-Amz-Target",
+						"value": "AWSCognitoIdentityProviderService.RespondToAuthChallenge"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ChallengeName\": \"NEW_PASSWORD_REQUIRED\",\r\n    \"ClientId\": \"{{client_id}}\",\r\n    \"Session\": \"{{session}}\",\r\n    \"ChallengeResponses\": {\r\n        \"USERNAME\": \"{{email}}\",\r\n        \"NEW_PASSWORD\": \"{{senha}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cognito-idp.us-east-1.amazonaws.com/",
+					"protocol": "https",
+					"host": [
+						"cognito-idp",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Generated from cURL: curl --location 'https://cognito-idp.us-east-1.amazonaws.com/' \\\r\n--header 'Content-Type: application/x-amz-json-1.1' \\\r\n--header 'X-Amz-Target: AWSCognitoIdentityProviderService.RespondToAuthChallenge' \\\r\n--data-raw '{\r\n    \"ChallengeName\": \"NEW_PASSWORD_REQUIRED\",\r\n    \"ClientId\": \"5qpcrng5h5jloi329q4shb9j7m\",\r\n    \"Session\": \"AYABeED6jyVADNmHSLV-7l6_KF4AHQABAAdTZXJ2aWNlABBDb2duaXRvVXNlclBvb2xzAAEAB2F3cy1rbXMAS2Fybjphd3M6a21zOnVzLWVhc3QtMTo3NDU2MjM0Njc1NTU6a2V5L2IxNTVhZmNhLWJmMjktNGVlZC1hZmQ4LWE5ZTA5MzY1M2RiZQC4AQIBAHhR9E4zNbI1ofi3Y01_Ljgh2wK-ZaC__bKufjbgmejy4gFlbPh2xbnCWtEPivZGMdRmAAAAfjB8BgkqhkiGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMo_Dv_dZfInYgt07YAgEQgDsrQASsiCxG62lh9vjHLpf_sG6xqEf5PXQdb1e1F2sJse-1wC3QNp1yCUVaBCOZOqIXXohHoPXZ9krgKAIAAAAADAAAEAAAAAAAAAAAAAAAAABWT6ROUu2LRx5o7GAhqJn______wAAAAEAAAAAAAAAAAAAAAEAAADZ-dMHwnDU4P-BZCJABzGAIdlXpk1xnjdkIux0fDQ6Ldyt0fZ6npuwIq8MujonqkWgn-YFuX5THZP-8EavT5aJPyUC0KBOgZ47NKGUOzic7PUailNxCWZz_W--GZ-6lA1kjs4X_aFJU-r51fYMt07o5FH5BTkUgJmWCjjMaFpKWZXib8cGxRJyOjbgXzATKmtcR6iGEFDR2vbnFF6fTFRZn2fH91hS0L1YUGWxCICoP6WlwRRKNWeNNhA8CAuC28Sp4oKYziz4yIw9GL60ghRyN0Z_nAO_EuPJw7HM_EwhERTROMeTovgE79g\",\r\n    \"ChallengeResponses\": {\r\n        \"USERNAME\": \"f@gmail.com\",\r\n        \"NEW_PASSWORD\": \"SenhaNova#123\"\r\n    }\r\n}'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Change Pass ADMIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-amz-json-1.1"
+					},
+					{
+						"key": "X-Amz-Target",
+						"value": "AWSCognitoIdentityProviderService.RespondToAuthChallenge"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ChallengeName\": \"NEW_PASSWORD_REQUIRED\",\r\n    \"ClientId\": \"{{client_id}}\",\r\n    \"Session\": \"{{session}}\",\r\n    \"ChallengeResponses\": {\r\n        \"USERNAME\": \"{{email_admin}}\",\r\n        \"NEW_PASSWORD\": \"{{senha_admin}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cognito-idp.us-east-1.amazonaws.com/",
+					"protocol": "https",
+					"host": [
+						"cognito-idp",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Generated from cURL: curl --location 'https://cognito-idp.us-east-1.amazonaws.com/' \\\r\n--header 'Content-Type: application/x-amz-json-1.1' \\\r\n--header 'X-Amz-Target: AWSCognitoIdentityProviderService.RespondToAuthChallenge' \\\r\n--data-raw '{\r\n    \"ChallengeName\": \"NEW_PASSWORD_REQUIRED\",\r\n    \"ClientId\": \"5qpcrng5h5jloi329q4shb9j7m\",\r\n    \"Session\": \"AYABeED6jyVADNmHSLV-7l6_KF4AHQABAAdTZXJ2aWNlABBDb2duaXRvVXNlclBvb2xzAAEAB2F3cy1rbXMAS2Fybjphd3M6a21zOnVzLWVhc3QtMTo3NDU2MjM0Njc1NTU6a2V5L2IxNTVhZmNhLWJmMjktNGVlZC1hZmQ4LWE5ZTA5MzY1M2RiZQC4AQIBAHhR9E4zNbI1ofi3Y01_Ljgh2wK-ZaC__bKufjbgmejy4gFlbPh2xbnCWtEPivZGMdRmAAAAfjB8BgkqhkiGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMo_Dv_dZfInYgt07YAgEQgDsrQASsiCxG62lh9vjHLpf_sG6xqEf5PXQdb1e1F2sJse-1wC3QNp1yCUVaBCOZOqIXXohHoPXZ9krgKAIAAAAADAAAEAAAAAAAAAAAAAAAAABWT6ROUu2LRx5o7GAhqJn______wAAAAEAAAAAAAAAAAAAAAEAAADZ-dMHwnDU4P-BZCJABzGAIdlXpk1xnjdkIux0fDQ6Ldyt0fZ6npuwIq8MujonqkWgn-YFuX5THZP-8EavT5aJPyUC0KBOgZ47NKGUOzic7PUailNxCWZz_W--GZ-6lA1kjs4X_aFJU-r51fYMt07o5FH5BTkUgJmWCjjMaFpKWZXib8cGxRJyOjbgXzATKmtcR6iGEFDR2vbnFF6fTFRZn2fH91hS0L1YUGWxCICoP6WlwRRKNWeNNhA8CAuC28Sp4oKYziz4yIw9GL60ghRyN0Z_nAO_EuPJw7HM_EwhERTROMeTovgE79g\",\r\n    \"ChallengeResponses\": {\r\n        \"USERNAME\": \"f@gmail.com\",\r\n        \"NEW_PASSWORD\": \"SenhaNova#123\"\r\n    }\r\n}'\r\n"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		}
+	]
+}
