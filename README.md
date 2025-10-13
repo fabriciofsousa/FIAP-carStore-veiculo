@@ -1,28 +1,42 @@
 # 🚗 FIAP CarStore - Veículo
 
+---
+
+O **FIAP CarStore - Veículo** é o microsserviço **principal e ponto de partida** do ecossistema CarStore.  
+Ele é responsável por **gerenciar os veículos** cadastrados na plataforma e também por **provisionar toda a infraestrutura base** utilizada pelos demais módulos do sistema.
+
+Ao ser executado, este serviço:
+- **Inicializa o banco de dados PostgreSQL**, usado por outros microsserviços.
+- **Cria a rede Docker compartilhada (`carstore-network`)**, permitindo comunicação entre os módulos.
+- **Garante a base de dados** para o funcionamento do serviço de **Clientes** e **Vendas**.
+
+Dessa forma, ele é a **porta de entrada** do projeto CarStore — nenhum outro microsserviço deve ser iniciado antes deste.
 
 ---
 
-O **FIAP CarStore - Veículo** é o microsserviço responsável pelo gerenciamento dos veículos cadastrados na plataforma CarStore.
+## 🧭 Visão geral do ecossistema CarStore
 
-Ele também é o responsável por inicializar o banco de dados PostgreSQL e configurar a rede compartilhada entre os serviços. Dessa forma, todos os demais microsserviços (como o de Clientes) podem se conectar ao mesmo banco de dados sem esforço adicional.
+O projeto **CarStore** foi desenvolvido com uma arquitetura **modular e limpa (Clean Architecture)**, onde cada microsserviço é independente, mas colabora dentro de um mesmo domínio de negócio.
 
-Esse serviço é o ponto de partida do ecossistema CarStore, garantindo que a infraestrutura esteja pronta para que os outros módulos possam funcionar corretamente.
+- **Veículo** → Responsável por gerenciar os dados de automóveis e pela infraestrutura base (rede e banco).
+- **Clientes** → Gerencia as informações de usuários e se conecta ao mesmo banco PostgreSQL criado pelo módulo Veículo.
+- **Vendas** → Centraliza as transações e integra com os outros dois serviços.
+
+Com essa separação, o sistema é altamente **escalável, testável e fácil de manter**, além de seguir boas práticas de microsserviços.
 
 ---
 
 ## ✅ Pré-requisitos
 
-- Docker e Docker Compose instalados.
+- **Docker** e **Docker Compose** instalados.
+- As portas **5432** (PostgreSQL) e **8082** (aplicação Veículo) devem estar livres.
 
 ---
 
 ## ▶️ Para rodar localmente
 
----
-Este projeto sobe a aplicação **Veículo** junto com o **Postgres**.  
-Ele é o responsável por criar o banco de dados e a rede que serão utilizados por outros serviços, como o **Clientes**.
----
+> ⚙️ Este projeto sobe a aplicação **Veículo** junto com o **Postgres**.  
+> Ele é responsável por criar o banco e a rede que serão utilizados pelos outros serviços, como **Clientes** e **Vendas**.
 
 1. Baixe a imagem da aplicação **veículo** do Docker Hub:
 
@@ -39,16 +53,41 @@ docker compose up -d
 Isso irá criar:
 - Um container **Postgres** chamado `postgres_carstore`
 - Um container da aplicação **veículo**
+- Uma rede externa chamada **carstore-network**
 
 ---
 
 ## 🌐 Rede compartilhada
 
-Ao subir este projeto, será criada a rede **carstore-network**.  
-Outros projetos (como o `clientes`) utilizarão essa rede para compartilhar o mesmo banco de dados.
+A rede **carstore-network** é criada automaticamente pelo serviço de **Veículo**.  
+Outros projetos — como `clientes` e `vendas` — devem usar essa mesma rede no `docker-compose.yml` para se comunicar entre si.
+
+---
+
+## 🧩 Arquitetura e Benefícios
+
+O módulo **Veículo** segue os princípios da **Clean Architecture**, separando as responsabilidades em camadas:
+
+- **Domain:** contém as regras de negócio de cadastro e gestão de veículos.
+- **Infra:** lida com o banco PostgreSQL e comunicação com outros módulos.
+- **Interface (Controller):** expõe os endpoints REST da aplicação.
+
+Essa abordagem garante:
+- **Facilidade para testar e manter** o código.
+- **Flexibilidade tecnológica**, permitindo trocar banco ou framework sem afetar o domínio.
+- **Organização e clareza**, facilitando o entendimento geral do ecossistema CarStore.
 
 ---
 
 ## 🔗 Endpoints
 
 - Swagger Veículo: [http://localhost:8082/swagger-ui/index.html](http://localhost:8082/swagger-ui/index.html)
+
+---
+
+## 📦 Collection Postman
+
+> [Fiap-Carstore.postman_collection.json](src%2Fmain%2Fresources%2FFiap-Carstore.postman_collection.json)
+> 
+> [workspace.postman_globals.json](src%2Fmain%2Fresources%2Fworkspace.postman_globals.json)
+
