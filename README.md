@@ -41,18 +41,24 @@ Com essa separação, o sistema é altamente **escalável, testável e fácil de
 
 ---
 
-## ▶️ Para rodar localmente
+## ▶️ Para rodar localmente(Branch release/docker)
 
 > ⚙️ Este projeto sobe a aplicação **Veículo** junto com o **Postgres**.  
 > Ele é responsável por criar o banco e a rede que serão utilizados pelos outros serviços, como **Clientes** e **Vendas**.
 
-1. Baixe a imagem da aplicação **veículo** do Docker Hub:
+1. Clone o repositório e acesse a pasta do projeto:
+```bash
+git clone https://github.com/fabriciofsousa/FIAP-carStore-veiculo.git
+git checkout release/docker
+```
+
+2. Baixe a imagem da aplicação **veículo** do Docker Hub:
 
 ```bash
 docker pull fabriciofsousa/fiap-carstore-veiculo:latest
 ```
 
-2. Suba os containers com o Docker Compose:
+3. Suba os containers com o Docker Compose:
 
 ```bash
 docker compose up -d
